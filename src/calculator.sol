@@ -3,11 +3,15 @@
 
 pragma solidity 0.8.28;
 
+error NotAuthorized();
+
 contract calculator {
     uint256 public resultado;
+    address admin;
 
-    constructor(uint256 restultado_) {
+    constructor(uint256 restultado_, address admin_) {
         resultado = restultado_;
+        admin = admin_;
     }
 
     // events
@@ -19,6 +23,13 @@ contract calculator {
     event Multiplier(uint256 num1_, uint256 num2_, uint256 resultado_);
 
     event Division(uint256 num1_, uint256 num2_, uint256 resultado_);
+
+    // Modifiers
+
+    modifier checkAdmin() {
+        _checkAuth(); /// @dev mira esta manera de dividir la logica de verificacion de modifier, recomendado por warp
+        _;
+    }
 
     function addition(
         uint256 num1_,
@@ -50,9 +61,13 @@ contract calculator {
     function division(
         uint256 num1_,
         uint256 num2_
-    ) external returns (uint256 resultado_) {
+    ) external checkAdmin returns (uint256 resultado_) {
         resultado_ = num1_ / num2_;
         resultado = resultado_;
         emit Division(num1_, num2_, resultado_);
+    }
+
+    function _checkAuth() internal view {
+        if (msg.sender != admin) revert NotAuthorized();
     }
 }
