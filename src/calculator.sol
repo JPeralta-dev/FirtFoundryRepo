@@ -7,7 +7,7 @@ error NotAuthorized();
 
 contract calculator {
     uint256 public resultado;
-    address admin;
+    address public admin;
 
     constructor(uint256 restultado_, address admin_) {
         resultado = restultado_;
@@ -55,7 +55,7 @@ contract calculator {
     ) external returns (uint256 resultado_) {
         resultado_ = num1_ * num2_;
         resultado = resultado_;
-        emit Substraction(num1_, num2_, resultado_);
+        emit Multiplier(num1_, num2_, resultado_);
     }
 
     function division(
