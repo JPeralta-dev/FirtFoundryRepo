@@ -62,6 +62,7 @@ contract calculator {
         uint256 num1_,
         uint256 num2_
     ) external checkAdmin returns (uint256 resultado_) {
+        if (num2_ == 0) return 0;
         resultado_ = num1_ / num2_;
         resultado = resultado_;
         emit Division(num1_, num2_, resultado_);

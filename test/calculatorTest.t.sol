@@ -102,10 +102,24 @@ contract calculatorTest is Test {
 
         vm.stopPrank();
     }
-
-    //Fuzzing testing -> nivel alto, puesto para senior
+    // Unit testing -> given inputs
+    //Fuzzing testing -> nivel alto, puesto para senior y tenemos randoms inputs
     /*
     Tenemos un test en que fondry llama en el foundry.toml unos parametros poara hacer x llamadas puede urilizar varias numeros de pruebas 
     randoms para que pruebes
     */
+
+    function testFuzzingDivision(
+        uint256 firtNumber_,
+        uint256 secondNumber_
+    ) public {
+        vm.assume(secondNumber_ != 0);
+        vm.startPrank(admin);
+
+        // dentro de esa linea es como si estuviera llamando ese usuario
+        uint256 result_ = calculadora.division(firtNumber_, secondNumber_);
+
+        assert(result_ == firtNumber_ / secondNumber_);
+        vm.stopPrank();
+    }
 }
